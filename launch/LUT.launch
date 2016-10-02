@@ -1,0 +1,37 @@
+<launch>
+<!--
+	<node	name="usb_cam"
+		pkg="usb_cam"
+		type="usb_cam_node"
+		output="screen">
+	</node>	
+-->
+	<arg	name	= "sub_topic"
+		default	= "/stereo/left/image_raw"/>
+	<arg	name	= "pub_topic"
+		default	= "/stereo/left/image_raw/calib"/>
+
+	<node 	name	= "image_republish"
+		pkg	= "image_transport"
+		type	= "republish"
+		output	= "screen"
+		args	= "compressed in:=$(arg sub_topic) raw out:=$(arg sub_topic)"/>
+
+	<node 	name="test1"
+		pkg="head_cam"
+		type="head_cam_node"
+		output="screen" >
+
+	<param 	name="sub_topic"
+		value="$(arg sub_topic)" />
+	<param 	name="pub_topic"
+		value="$(arg pub_topic)" />
+	<param 	name="framerate"
+		value="30" />
+	<param  name="LUT_PARAM"
+		value="0.000008205" />
+
+
+	</node>
+
+</launch>
